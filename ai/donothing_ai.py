@@ -1,15 +1,9 @@
 import random
 from risktools import *
-#For interacting with interactive GUI
 from gui.aihelper import *
 from gui.turbohelper import *
 
 ### DO NOTHING AI ####
-# 
-#  This AI never attacks, and otherwise will choose a random action
-#  This results in an AI that builds up strength, but can't win.  
-#  To beat this agent requires attacking, so it is good to test with. 
-
 
 def getAction(state, time_left=None):
     """Main AI function.  It should return a valid AI action for this state."""
