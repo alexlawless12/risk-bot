@@ -31,22 +31,9 @@ def getAction(state, config, time_left=None):
         # The final action in the list will be the "stop attacking" action, so this will always choose to attack if possible
         myaction = actions[0]
 
-    if state.turn_type == 'Place' or state.turn_type == 'Fortify' or state.turn_type == 'PrePlace':
-        # Create a list of all actions that move troops to a territory bordering an opponent
-        possible_actions = []
-
-        for a in actions:
-            if a.to_territory is not None:
-                for n in state.board.territories[state.board.territory_to_id[a.to_territory]].neighbors:
-                    if state.owners[n] != state.current_player:
-                        possible_actions.append(a)
-
-        # Randomly select one of these actions, if there were any
-        if len(possible_actions) > 0:
-            myaction = random.choice(possible_actions)
-
     # Return the chosen action
     return myaction
+
 
 # Code below this is the interface with Risk.pyw GUI version
 # DO NOT MODIFY
