@@ -79,6 +79,8 @@ def play_game(player_names, ai_players, ai_files, stats, config, save_logfile, l
 
     time_left = dict()
 
+    n_players = len(player_names)
+
     logname = logname = os.path.join(log_folder, '')
 
     action_limit = 5000  # total between players  MODIFY IF USING DIFFERENT LENGTH
@@ -105,8 +107,8 @@ def play_game(player_names, ai_players, ai_files, stats, config, save_logfile, l
     if save_logfile:
         timestr = time.strftime("%Y%m%d-%H%M%S")
         # Open the logfile
-        logname = logname + '_' + \
-            str(stats.games_played) + '_' + timestr + '.log'
+        logname = f"{logname}_{str(stats.games_played)}_\
+            {timestr}_players_{n_players}.log"
         logfile = open(logname, 'w')
 
         logfile.write(board.to_string())

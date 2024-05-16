@@ -6,9 +6,7 @@ from gui.turbohelper import *
 
 def getAction(state, config, time_left=None):
     weights = config.get("weights", {})
-    print(f"weights: {config}")
     max_troops_weight = float(weights.get("weight_max_troops"))
-    print(f"max_troops_weight: {max_troops_weight}")
     actions = getAllowedActions(state)
 
     if state.turn_type == "Attack":

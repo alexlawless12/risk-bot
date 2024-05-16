@@ -1,4 +1,8 @@
+import os
+import sys
 import json
+import argparse
+from datetime import datetime
 
 # Function to parse the RISKBOARD section
 
@@ -11,23 +15,64 @@ def parse_riskresult(section, n_players):
 
 
 # Main function to parse the log file
-def parse_log_file(log_file, n_players):
-    for line in log_file.split('\n'):
+def parse_log_file(log_content, n_players):
+    q_values = []
+    for line in log_content.split('\n'):
         if line.startswith("RISKRESULT"):
             risk_result, additional_info = parse_riskresult(line, n_players)
             heuristic_win = float(risk_result[0].split(',')[1])
-    print(heuristic_win)
+            q_values.append(heuristic_win)
+    return q_values
+
+
+def find_newest_folder(logs_dir):
+    # Get all directories in logs_dir
+    directories = [d for d in os.listdir(
+        logs_dir) if os.path.isdir(os.path.join(logs_dir, d))]
+    # Sort directories based on creation time
+    sorted_dirs = sorted(directories, key=lambda d: os.path.getctime(
+        os.path.join(logs_dir, d)), reverse=True)
+    # Return the newest directory
+    return sorted_dirs[0] if sorted_dirs else None
 
 
 def main():
-    file_path = './logs/20240514-2310_“Attacker”_“Random1”_“Random2”/_“Random2”_“Random1”_“Attacker”_11_20240514-2310_players_3.log'
-    # Get number of players from end of filename
-    n_players = int(file_path.split('_')[-1].split('.')[0])
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(
+        description="Process log files and build Q-table.")
+    parser.add_argument("-w", "--ai-scripts", nargs='+',
+                        help="Paths to AI scripts")
+    parser.add_argument("-c", "--config-file", help="Path to config file")
+    args = parser.parse_args()
 
-    with open(file_path, 'r') as file:
-        log_content = file.read()
+    # Find newest folder in ./logs directory
+    logs_dir = "./logs"
+    newest_folder = find_newest_folder(logs_dir)
+    if not newest_folder:
+        print("No folders found in ./logs directory.")
+        return
 
-    parse_log_file(log_content, n_players)
+    # Loop through all files in the newest folder
+    folder_path = os.path.join(logs_dir, newest_folder)
+    q_table = {}
+    for filename in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, filename)
+        if os.path.isfile(file_path):
+            # Get number of players from end of filename
+            n_players = int(filename.split('_')[-1].split('.')[0])
+            with open(file_path, 'r') as file:
+                log_content = file.read()
+
+            # Execute parse_log_file on each file
+            q_values = parse_log_file(log_content, n_players)
+            q_table[filename] = q_values
+
+    # Write Q-table to a JSON file
+    q_table_file = "q_table.json"
+    with open(q_table_file, 'w') as f:
+        json.dump(q_table, f)
+
+    print("Q-table generated and saved as", q_table_file)
 
 
 if __name__ == "__main__":
