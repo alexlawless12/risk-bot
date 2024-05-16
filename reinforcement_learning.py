@@ -1,8 +1,7 @@
 import os
-import sys
 import json
-import argparse
-from datetime import datetime
+import subprocess
+import time
 
 # Function to parse the RISKBOARD section
 
@@ -37,56 +36,96 @@ def find_newest_folder(logs_dir):
     return sorted_dirs[0] if sorted_dirs else None
 
 
+def run_match(heuristic_script, random_script, log_dir):
+    # Ensure the log directory exists
+    os.makedirs(log_dir, exist_ok=True)
+
+    # Construct the command to run the game
+    command = [
+        "python", "play_risk_ai.py",
+        "-w", heuristic_script, "Heuristic",
+        random_script, "Random", "-v"
+    ]
+
+    # Run the game and store logs
+    result = subprocess.run(command, capture_output=True, text=True)
+    log_filename = os.path.join(log_dir, f"log_{int(time.time())}.txt")
+    with open(log_filename, 'w') as log_file:
+        log_file.write(result.stdout)
+
+    return log_filename
+
+
+def load_q_table(q_table_file):
+    if os.path.exists(q_table_file):
+        with open(q_table_file, 'r') as f:
+            q_table = json.load(f)
+    else:
+        q_table = {}
+    return q_table
+
+
+def save_q_table(q_table, q_table_file):
+    with open(q_table_file, 'w') as f:
+        json.dump(q_table, f, indent=4)
+
+
 def load_weights(config_file):
     with open(config_file, 'r') as f:
         config = json.load(f)
     return config.get('weights', {})
 
 
+def update_weights(q_table, config_file):
+    # Load the current weights
+    weights = load_weights(config_file)
+
+    for filename, data in q_table.items():
+        q_values = data["q_values"]
+        avg_q_value = sum(q_values) / len(q_values) if q_values else 0
+
+        # Update weights based on avg_q_value
+        for key in weights:
+            weights[key] += 0.01 * avg_q_value
+            # Ensure no weight goes above 1
+            weights[key] = min(weights[key], 1.0)
+
+    # Save the updated weights back to the config file
+    with open(config_file, 'w') as f:
+        json.dump({"weights": weights}, f, indent=4)
+
+
 def main():
-    # Parse command line arguments
-    parser = argparse.ArgumentParser(
-        description="Process log files and build Q-table.")
-    parser.add_argument("-w", "--ai-scripts", nargs='+',
-                        help="Paths to AI scripts")
-    parser.add_argument("-c", "--config-file",
-                        help="Path to config file", default="./ai/config.json")
-    args = parser.parse_args()
-
-    # Load weights from config file
-    weights = load_weights(args.config_file)
-
-    # Find newest folder in ./logs directory
-    logs_dir = "./logs"
-    newest_folder = find_newest_folder(logs_dir)
-    if not newest_folder:
-        print("No folders found in ./logs directory.")
-        return
-
-    # Loop through all files in the newest folder
-    folder_path = os.path.join(logs_dir, newest_folder)
-    q_table = {}
-    for filename in os.listdir(folder_path):
-        file_path = os.path.join(folder_path, filename)
-        if os.path.isfile(file_path):
-            # Get number of players from end of filename
-            n_players = int(filename.split('_')[-1].split('.')[0])
-            with open(file_path, 'r') as file:
-                log_content = file.read()
-
-            # Execute parse_log_file on each file
-            q_values = parse_log_file(log_content, n_players)
-            q_table[filename] = {
-                "q_values": q_values,
-                "weights": weights
-            }
-
-    # Write Q-table to a JSON file
+    heuristic_script = "./ai/heuristic_ai.py"
+    random_script = "./ai/random_ai.py"
+    config_file = "./ai/config.json"
     q_table_file = "q_table.json"
-    with open(q_table_file, 'w') as f:
-        json.dump(q_table, f, indent=4)
+    log_dir = "./logs"
 
-    print("Q-table generated and saved as", q_table_file)
+    # Load the initial Q-table
+    q_table = load_q_table(q_table_file)
+
+    # Training loop
+    num_games = 1  # Number of games to run for training
+    for _ in range(num_games):
+        log_filename = run_match(heuristic_script, random_script, log_dir)
+
+        # Parse the log file and update the Q-table
+        with open(log_filename, 'r') as file:
+            log_content = file.read()
+        n_players = 2  # Example, adjust based on actual number of players
+        q_values = parse_log_file(log_content, n_players)
+
+        q_table[log_filename] = {
+            "q_values": q_values,
+            "weights": load_weights(config_file)
+        }
+
+        # Save the updated Q-table
+        save_q_table(q_table, q_table_file)
+
+        # Update the weights based on Q-table
+        update_weights(q_table, config_file)
 
 
 if __name__ == "__main__":
