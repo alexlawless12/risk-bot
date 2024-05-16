@@ -1,5 +1,6 @@
 {
   "weights": {
+    "weight_max_troops": 0.0000001,
     "weight_territories_owned": 0.4,
     "weight_armies_fraction": 0.3,
     "weight_border_protection": 0.3

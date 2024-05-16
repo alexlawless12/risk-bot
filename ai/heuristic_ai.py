@@ -4,15 +4,18 @@ from gui.aihelper import *
 from gui.turbohelper import *
 
 
-def getAction(state, time_left=None):
+def getAction(state, config, time_left=None):
+    weights = config.get("weights", {})
+    print(f"weights: {config}")
+    max_troops_weight = float(weights.get("weight_max_troops"))
+    print(f"max_troops_weight: {max_troops_weight}")
     actions = getAllowedActions(state)
-    
+
     if state.turn_type == "Attack":
         return actions[0]
-        
-    
+
     if state.turn_type == "Place":
-        max_opponent_count,best_action = 0, None
+        max_opponent_count, best_action = 0, None
 
         cur_territory = None
         for a in actions:
@@ -37,15 +40,14 @@ def getAction(state, time_left=None):
         max_troops, num_troops, best_action = 0, 0, None
         for a in actions:
             num_troops = a.troops
-            if num_troops > max_troops:
+            if num_troops > max_troops_weight * (max_troops):
                 max_troops = num_troops
                 best_action = a
         return a
-    
+
     if state.turn_type == "PrePlace" or "PreAssign":
 
         return random.choice(actions)
-        
 
     return actions[0]
 
@@ -75,19 +77,19 @@ def getAction(state, time_left=None):
 #     return my_action
 
 # def heuristicEvaluation(state, possible_state):
-    
+
 #     current_player = state.current_player
-    
+
 #     # Check if state.owners and possible_state.owners are not None
 #     if state.owners is None or possible_state.owners is None:
 #         return False
-    
+
 #     enemy_border_score_current, enemy_border_score_possible = 1, 0
 
 #     if state.turn_type == "Place":
-        
+
 #         enemy_border_score_current = calculateEnemyBorderScore(state, current_player)
-        
+
 #         # Calculate enemy border score for the possible state
 #         enemy_border_score_possible = calculateEnemyBorderScore(possible_state, current_player)
 
@@ -95,10 +97,10 @@ def getAction(state, time_left=None):
 #     if state.turn_type == "Attack":
 #         # Count the number of territories owned by the current player in the current state
 #         current_player_territories = sum(1 for t in state.owners if t is not None and state.owners[t] == current_player)
-        
+
 #         # Count the number of territories owned by the current player in the possible state
 #         possible_player_territories = sum(1 for t in possible_state.owners if t is not None and possible_state.owners[t] == current_player)
-    
+
 #     # Check if the current player has more territories in the possible state compared to the current state
 #     return 1 if (possible_player_territories > current_player_territories) and (enemy_border_score_possible > enemy_border_score_current) else 0
 
@@ -247,10 +249,10 @@ def getAction(state, time_left=None):
 # Need below code for GUI
 
 
-def aiWrapper(function_name, occupying=None):
+def aiWrapper(function_name, config, occupying=None):
     game_board = createRiskBoard()
     game_state = createRiskState(game_board, function_name, occupying)
-    action = getAction(game_state)
+    action = getAction(game_state, config)
     return translateAction(game_state, action)
 
 

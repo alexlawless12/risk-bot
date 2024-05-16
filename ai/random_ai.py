@@ -10,7 +10,7 @@ from gui.turbohelper import *
 #  It does not necessarily attempt to win or end the game.
 
 
-def getAction(state, time_left=None):
+def getAction(state, config, time_left=None):
     """Main AI function.  It should return a valid AI action for this state."""
 
     # Get the possible actions in this state
@@ -23,10 +23,10 @@ def getAction(state, time_left=None):
 # DO NOT MODIFY
 
 
-def aiWrapper(function_name, occupying=None):
+def aiWrapper(function_name, config, occupying=None):
     game_board = createRiskBoard()
     game_state = createRiskState(game_board, function_name, occupying)
-    action = getAction(game_state)
+    action = getAction(game_state, config)
     return translateAction(game_state, action)
 
 
