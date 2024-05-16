@@ -1,0 +1,165 @@
+{
+    "_\u201cDoNothing\u201d_\u201cRandom\u201d_6_            20240516-183554_players_2.log": {
+        "q_values": [
+            0.5
+        ],
+        "weights": {
+            "weight_max_troops": 1e-07,
+            "weight_territories_owned": 0.4,
+            "weight_armies_fraction": 0.3,
+            "weight_border_protection": 0.3
+        }
+    },
+    "_\u201cDoNothing\u201d_\u201cRandom\u201d_1_            20240516-183543_players_2.log": {
+        "q_values": [
+            0.5
+        ],
+        "weights": {
+            "weight_max_troops": 1e-07,
+            "weight_territories_owned": 0.4,
+            "weight_armies_fraction": 0.3,
+            "weight_border_protection": 0.3
+        }
+    },
+    "_\u201cDoNothing\u201d_\u201cRandom\u201d_11_            20240516-183604_players_2.log": {
+        "q_values": [
+            0.5
+        ],
+        "weights": {
+            "weight_max_troops": 1e-07,
+            "weight_territories_owned": 0.4,
+            "weight_armies_fraction": 0.3,
+            "weight_border_protection": 0.3
+        }
+    },
+    "_\u201cDoNothing\u201d_\u201cRandom\u201d_3_            20240516-183548_players_2.log": {
+        "q_values": [
+            0.5
+        ],
+        "weights": {
+            "weight_max_troops": 1e-07,
+            "weight_territories_owned": 0.4,
+            "weight_armies_fraction": 0.3,
+            "weight_border_protection": 0.3
+        }
+    },
+    "_\u201cDoNothing\u201d_\u201cRandom\u201d_2_            20240516-183546_players_2.log": {
+        "q_values": [
+            0.5
+        ],
+        "weights": {
+            "weight_max_troops": 1e-07,
+            "weight_territories_owned": 0.4,
+            "weight_armies_fraction": 0.3,
+            "weight_border_protection": 0.3
+        }
+    },
+    "_\u201cRandom\u201d_\u201cDoNothing\u201d_5_            20240516-183553_players_2.log": {
+        "q_values": [
+            1.0
+        ],
+        "weights": {
+            "weight_max_troops": 1e-07,
+            "weight_territories_owned": 0.4,
+            "weight_armies_fraction": 0.3,
+            "weight_border_protection": 0.3
+        }
+    },
+    "_\u201cRandom\u201d_\u201cDoNothing\u201d_4_            20240516-183550_players_2.log": {
+        "q_values": [
+            0.5
+        ],
+        "weights": {
+            "weight_max_troops": 1e-07,
+            "weight_territories_owned": 0.4,
+            "weight_armies_fraction": 0.3,
+            "weight_border_protection": 0.3
+        }
+    },
+    "_\u201cDoNothing\u201d_\u201cRandom\u201d_14_            20240516-183612_players_2.log": {
+        "q_values": [],
+        "weights": {
+            "weight_max_troops": 1e-07,
+            "weight_territories_owned": 0.4,
+            "weight_armies_fraction": 0.3,
+            "weight_border_protection": 0.3
+        }
+    },
+    "_\u201cRandom\u201d_\u201cDoNothing\u201d_8_            20240516-183557_players_2.log": {
+        "q_values": [
+            0.5
+        ],
+        "weights": {
+            "weight_max_troops": 1e-07,
+            "weight_territories_owned": 0.4,
+            "weight_armies_fraction": 0.3,
+            "weight_border_protection": 0.3
+        }
+    },
+    "_\u201cRandom\u201d_\u201cDoNothing\u201d_13_            20240516-183609_players_2.log": {
+        "q_values": [
+            0.5
+        ],
+        "weights": {
+            "weight_max_troops": 1e-07,
+            "weight_territories_owned": 0.4,
+            "weight_armies_fraction": 0.3,
+            "weight_border_protection": 0.3
+        }
+    },
+    "_\u201cDoNothing\u201d_\u201cRandom\u201d_7_            20240516-183556_players_2.log": {
+        "q_values": [
+            1.0
+        ],
+        "weights": {
+            "weight_max_troops": 1e-07,
+            "weight_territories_owned": 0.4,
+            "weight_armies_fraction": 0.3,
+            "weight_border_protection": 0.3
+        }
+    },
+    "_\u201cRandom\u201d_\u201cDoNothing\u201d_12_            20240516-183607_players_2.log": {
+        "q_values": [
+            0.5
+        ],
+        "weights": {
+            "weight_max_troops": 1e-07,
+            "weight_territories_owned": 0.4,
+            "weight_armies_fraction": 0.3,
+            "weight_border_protection": 0.3
+        }
+    },
+    "_\u201cDoNothing\u201d_\u201cRandom\u201d_0_            20240516-183541_players_2.log": {
+        "q_values": [
+            0.5
+        ],
+        "weights": {
+            "weight_max_troops": 1e-07,
+            "weight_territories_owned": 0.4,
+            "weight_armies_fraction": 0.3,
+            "weight_border_protection": 0.3
+        }
+    },
+    "_\u201cRandom\u201d_\u201cDoNothing\u201d_9_            20240516-183559_players_2.log": {
+        "q_values": [
+            0.5
+        ],
+        "weights": {
+            "weight_max_troops": 1e-07,
+            "weight_territories_owned": 0.4,
+            "weight_armies_fraction": 0.3,
+            "weight_border_protection": 0.3
+        }
+    },
+    "_\u201cDoNothing\u201d_\u201cRandom\u201d_10_            20240516-183602_players_2.log": {
+        "q_values": [
+            0.5
+        ],
+        "weights": {
+            "weight_max_troops": 1e-07,
+            "weight_territories_owned": 0.4,
+            "weight_armies_fraction": 0.3,
+            "weight_border_protection": 0.3
+        }
+    }
+}

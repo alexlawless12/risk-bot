@@ -13,8 +13,9 @@ def parse_riskresult(section, n_players):
     additional_info = result_sections[n_players+1:]
     return player_info, additional_info
 
-
 # Main function to parse the log file
+
+
 def parse_log_file(log_content, n_players):
     q_values = []
     for line in log_content.split('\n'):
@@ -36,14 +37,24 @@ def find_newest_folder(logs_dir):
     return sorted_dirs[0] if sorted_dirs else None
 
 
+def load_weights(config_file):
+    with open(config_file, 'r') as f:
+        config = json.load(f)
+    return config.get('weights', {})
+
+
 def main():
     # Parse command line arguments
     parser = argparse.ArgumentParser(
         description="Process log files and build Q-table.")
     parser.add_argument("-w", "--ai-scripts", nargs='+',
                         help="Paths to AI scripts")
-    parser.add_argument("-c", "--config-file", help="Path to config file")
+    parser.add_argument("-c", "--config-file",
+                        help="Path to config file", default="./ai/config.json")
     args = parser.parse_args()
+
+    # Load weights from config file
+    weights = load_weights(args.config_file)
 
     # Find newest folder in ./logs directory
     logs_dir = "./logs"
@@ -65,12 +76,15 @@ def main():
 
             # Execute parse_log_file on each file
             q_values = parse_log_file(log_content, n_players)
-            q_table[filename] = q_values
+            q_table[filename] = {
+                "q_values": q_values,
+                "weights": weights
+            }
 
     # Write Q-table to a JSON file
     q_table_file = "q_table.json"
     with open(q_table_file, 'w') as f:
-        json.dump(q_table, f)
+        json.dump(q_table, f, indent=4)
 
     print("Q-table generated and saved as", q_table_file)
 
