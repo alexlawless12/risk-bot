@@ -15,7 +15,7 @@ def parse_args():
     parser.add_argument("ais", type=str, nargs='+',
                         help="List of the AIs for match: ai_1 name_1 ai_2 name_2 . . .")
     parser.add_argument("-n, --num", dest='num', type=int,
-                        help="Specify the number of games each player goes first in match", default=5)
+                        help="Specify the number of games each player goes first in match", default=50)
     parser.add_argument("-w, --write", dest='save', action='store_true',
                         help="Indicate that logfiles for games in the match should be saved to the logs directory", default=False)
     parser.add_argument("-v, --verbose", dest='verbose', action='store_true',
