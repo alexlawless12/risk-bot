@@ -96,7 +96,7 @@ def update_weights(q_table, config_file):
 
 
 def main():
-    heuristic_script = "./ai/heuristic_ai.py"
+    heuristic_script = "./ai/heuristic2_ai_copy.py"
     random_script = "./ai/attacker_ai.py"
     config_file = "./ai/config.json"
     q_table_file = "q_table.json"
