@@ -10,8 +10,8 @@ def getAction(state, config, time_left=None):
     # Finds all possible actions and stores them in a list
     actions = getAllowedActions(state)
 
-    # Fortify logic
-    if state.turn_type == "Preassign":
+    # Preassign logic
+    if state.turn_type == "PreAssign":
         return getPreAssignAction(state, weights, actions)
 
     # Attack logic
@@ -96,7 +96,7 @@ def getPreAssignAction(state, weights, actions):
     return best_action if best_action else random.choice(actions)
 
 
-def getPlaceAction(state, actions):
+def getPlaceAction(state, weights,actions):
     # Places troops at the territory that borders the most opponent territories
     max_opponent_count, best_action = 0, None
 
