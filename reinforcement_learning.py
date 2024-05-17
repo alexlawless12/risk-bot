@@ -97,7 +97,7 @@ def update_weights(q_table, config_file):
 
 def main():
     heuristic_script = "./ai/heuristic_ai.py"
-    random_script = "./ai/random_ai.py"
+    random_script = "./ai/attacker_ai.py"
     config_file = "./ai/config.json"
     q_table_file = "q_table.json"
     log_dir = "./logs"
@@ -106,7 +106,7 @@ def main():
     q_table = load_q_table(q_table_file)
 
     # Training loop
-    num_games = 1  # Number of games to run for training
+    num_games = 1  # Number of matches to run for training
     for _ in range(num_games):
         log_filename = run_match(heuristic_script, random_script, log_dir)
 
