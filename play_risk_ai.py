@@ -70,7 +70,7 @@ class Statistics():
             self.total_turns) / float(self.games_played))
 
 
-def play_game(player_names, ai_players, ai_files, stats, config, save_logfile, log_folder, verbose=False):
+def play_game(player_names, ai_players, ai_files, stats, save_logfile, log_folder, verbose=False):
     """
     This will actually play a single game between the players given
     """
@@ -151,7 +151,7 @@ def play_game(player_names, ai_players, ai_files, stats, config, save_logfile, l
         # Ask the current player what to do
         try:
             current_action = current_ai.getAction(
-                ai_state, config, time_left[state.players[state.current_player].name])
+                ai_state, time_left[state.players[state.current_player].name])
         except Exception as e:
             # Catch errors and count this as a loss for the player
             # Print error information
@@ -273,7 +273,7 @@ def play_game(player_names, ai_players, ai_files, stats, config, save_logfile, l
         logfile.close()
 
 
-def play_match(player_names, ai_players, ai_files, stats, config, games_per_agent, save_logfile, verbose):
+def play_match(player_names, ai_players, ai_files, stats, games_per_agent, save_logfile, verbose):
     """
     Play a match between the given AIs
     """
@@ -303,7 +303,7 @@ def play_match(player_names, ai_players, ai_files, stats, config, games_per_agen
         print('PLAYING GAME', i, 'OF', match_length,
               'LENGTH MATCH :', player_names)
         play_game(player_names, ai_players, ai_files,
-                  stats, config, save_logfile, log_folder, verbose)
+                  stats, save_logfile, log_folder, verbose)
 
     print('\n*******************************\nMATCH IS OVER.  PLAYED',
           match_length, 'GAMES\n*******************************\n')
@@ -311,8 +311,8 @@ def play_match(player_names, ai_players, ai_files, stats, config, games_per_agen
 
 
 if __name__ == "__main__":
-    with open("./ai/config.json") as f:
-        weights = json.load(f)
+    # with open("./ai/config.json") as f:
+    #     weights = json.load(f)
 
     # Parse command line arguments
     args = parse_args()
@@ -343,4 +343,4 @@ if __name__ == "__main__":
 
     # Actually play the match
     play_match(player_names, ai_players, ai_files,
-               stats, weights, args.num, args.save, args.verbose)
+               stats, args.num, args.save, args.verbose)
